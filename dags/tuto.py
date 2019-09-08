@@ -24,6 +24,9 @@ default_args = {
 
 dag = DAG("tutorial", default_args=default_args, schedule_interval=timedelta(1))
 
+
+t0 = BashOperator(task_id="random_tas", bash_command="ls", dag=dag)
+
 # t1, t2 and t3 are examples of tasks created by instantiating operators
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
@@ -43,6 +46,11 @@ t3 = BashOperator(
     params={"my_param": "Parameter I passed in"},
     dag=dag,
 )
+
+
+
+
+
 
 t2.set_upstream(t1)
 t3.set_upstream(t1)

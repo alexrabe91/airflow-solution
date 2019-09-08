@@ -1,22 +1,23 @@
-version: '2.1'
-services:
-    postgres:
-        image: postgres:9.6
-        environment:
-            - POSTGRES_USER=airflow
-            - POSTGRES_PASSWORD=airflow
-            - POSTGRES_DB=airflow
-        volumes:
-            - ./postgres-data:/var/lib/postgresql/data
-	    ports:
-	        - 5432:5432
+--- 
+services: 
+  pgadmin: 
+    depends_on: 
+      - postgres
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: alexander.rabe@nextlytics.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    image: dpage/pgadmin4
+    ports: 
+      - "5555:80"
+  postgres: 
+    environment: 
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    image: "postgres:9.6"
+    ports: 
+      - "5432:5432"
+    volumes: 
+      - "./postgres-data:/var/lib/postgresql/data"
+version: "2.1"
 
-    pgadmin:
-        image: dpage/pgadmin4
-        depends_on:
-            - postgres
-        ports:
-            - "5555:80"
-        environment:
-            PGADMIN_DEFAULT_EMAIL: alexander.rabe@nextlytics.com
-            PGADMIN_DEFAULT_PASSWORD: admin
